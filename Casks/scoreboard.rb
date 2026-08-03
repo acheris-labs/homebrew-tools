@@ -6,8 +6,8 @@
 # on the unix socket, and ships the CLI inside the bundle as a zipapp - the
 # `binary` stanza symlinks it onto PATH. Signed, notarized, stapled.
 cask "scoreboard" do
-  version "2.0.2"
-  sha256 "9e514259404dcbecf05fd61516f262e62b6725d4f2b990bf70e7fc7242e6e883"
+  version "2.0.3"
+  sha256 "c362ffda17861e134e7de9134bc22d654e6ca4a89d8b26da0016fedf5b8de467"
 
   url "https://github.com/acheris-labs/agent-scoreboard/releases/download/v#{version}/Scoreboard-#{version}.zip"
   name "Scoreboard"
