@@ -6,8 +6,8 @@
 # on the unix socket, and ships the CLI inside the bundle as a zipapp - the
 # `binary` stanza symlinks it onto PATH. Signed, notarized, stapled.
 cask "scoreboard" do
-  version "2.0.0"
-  sha256 "59c3d3982f11e31d8ff7d346844ec6a381d68434caf9c40027c0898e088839bd"
+  version "2.0.1"
+  sha256 "78e7956541c27166477c4629321097d5e8f319041637b4d443aca77ca702c321"
 
   url "https://github.com/acheris-labs/agent-scoreboard/releases/download/v#{version}/Scoreboard-#{version}.zip"
   name "Scoreboard"
@@ -19,20 +19,30 @@ cask "scoreboard" do
   app "Scoreboard.app"
   binary "#{appdir}/Scoreboard.app/Contents/Resources/scoreboard"
 
-  # Open on install: Scoreboard is a menu bar app with no Dock icon, so a
-  # fresh install is otherwise invisible - nothing launches and the caveats
-  # scroll past. Opening it puts the stoplight in the menu bar, where the
-  # next step (scoreboard init) can actually be found.
+  # Register the Claude Code hooks, then open the app: Scoreboard is a menu
+  # bar app with no Dock icon, so a fresh install is otherwise invisible -
+  # nothing launches and the caveats scroll past. `init` is idempotent and
+  # backs settings.json up before any change, so re-running it on every
+  # upgrade is a no-op that writes nothing.
   postflight do
+    system_command "#{appdir}/Scoreboard.app/Contents/Resources/scoreboard",
+                   args: ["init"], print_stderr: false
     system_command "/usr/bin/open", args: ["-a", "#{appdir}/Scoreboard.app"]
+  end
+
+  # Unregister the hooks while the binary still exists - after uninstall it is
+  # gone, and Claude Code would keep invoking a command that isn't there.
+  # Only scoreboard's own entries are removed; other hooks are untouched.
+  uninstall_preflight do
+    system_command "#{appdir}/Scoreboard.app/Contents/Resources/scoreboard",
+                   args: ["init", "--remove"], print_stderr: false
   end
 
   uninstall quit: "com.chrismadden.scoreboard"
 
   # `brew uninstall --zap scoreboard` is the full teardown: session state,
-  # snapshot, and hook log. The Claude Code hooks live in the user's own
-  # settings.json, which scoreboard only edits on request - run
-  # `scoreboard init --remove` before zapping to unwind those.
+  # snapshot, and hook log. The hooks themselves are already unwound by
+  # uninstall_preflight.
   zap trash: [
         "~/.local/state/scoreboard",
         "~/Library/Caches/com.chrismadden.scoreboard",
@@ -41,10 +51,11 @@ cask "scoreboard" do
 
   caveats <<~EOS
     Scoreboard is opening now - look for the stoplight icon in the menu bar
-    (top-right of the screen). Next:
+    (top-right of the screen). The Claude Code hooks have been registered in
+    ~/.claude/settings.json for you (a timestamped backup was written first);
+    uninstalling removes them again.
 
-      scoreboard init     # register the Claude Code hooks
-
-    Clicking a session in the menu jumps to its terminal tab.
+    Start a Claude session and it appears on the board. Clicking a session
+    jumps to its terminal tab.
   EOS
 end
