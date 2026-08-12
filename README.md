@@ -5,6 +5,7 @@ Homebrew tap for Acheris Labs tools.
 ```sh
 brew tap acheris-labs/tools
 brew install acheris-labs/tools/scoreboard
+brew install acheris-labs/tools/tracker
 ```
 
 ## Packages
@@ -12,6 +13,7 @@ brew install acheris-labs/tools/scoreboard
 | Package | Description |
 |:--------|:------------|
 | [scoreboard](https://github.com/acheris-labs/agent-scoreboard) | Claude Code session scoreboard for the macOS menu bar |
+| [tracker](https://github.com/acheris-labs/tracker) | Dock-icon system monitor: live CPU, GPU, memory, disk, and network |
 
 ## How this tap is maintained
 
