@@ -8,8 +8,8 @@
 # block points at our own appcast so Homebrew's tooling reads versions from
 # the same feed the app does.
 cask "tracker" do
-  version "0.4.1"
-  sha256 "9e60968107e15a683b60e6307f285588fb1e6b3b592bb585f73d99e02325d437"
+  version "0.4.2"
+  sha256 "e6998471f769bb3377376740c2285d01ddaea5d079b6ae2a8f35f6eec6719f28"
 
   url "https://github.com/acheris-labs/tracker/releases/download/v#{version}/Tracker-#{version}.dmg"
   name "Tracker"
