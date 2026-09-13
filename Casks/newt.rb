@@ -7,8 +7,8 @@
 # the version on disk can move ahead of the version in the tap without Homebrew
 # trying to reinstall over the top of it.
 cask "newt" do
-  version "0.9.0"
-  sha256 "5f41768c99fc193383e5b930061420d34b2bc17f52acb4425bec65bd6e50ebd4"
+  version "0.9.1"
+  sha256 "3a94642eef8feabf2518c81ccb0c45ee290e9bf1b63d3fc9ecf11ef49d17aaee"
 
   url "https://github.com/acheris-labs/newt/releases/download/v#{version}/Newt-#{version}.dmg"
   name "Newt"
@@ -23,8 +23,8 @@ cask "newt" do
 
   # Newt has no Dock icon, so a fresh install is otherwise completely
   # invisible — nothing launches and the caveats scroll past.
-  postflight do
-    system_command "/usr/bin/open", args: ["-a", "#{appdir}/Newt.app"]
+  postflight_steps do
+    run "/usr/bin/open", args: ["-a", "{{appdir}}/Newt.app"]
   end
 
   # Unwind the hooks and plugin files Newt wrote into other tools' config while
@@ -35,11 +35,19 @@ cask "newt" do
   # already gone or refuses to run, which is otherwise fatal — Homebrew aborts
   # the whole uninstall on a failed preflight and the app can't be removed at
   # all. Leftover hooks are a nuisance; an unremovable app is worse.
-  uninstall_preflight do
-    binary = "#{appdir}/Newt.app/Contents/MacOS/Newt"
-    if File.executable?(binary)
-      system_command binary, args: ["--uninstall-integrations"],
-                             must_succeed: false, print_stderr: false
+  #
+  # Install steps run under Homebrew's sandbox, which denies the home directory
+  # outright, so the two config trees Newt writes to have to be named here or
+  # the removal silently does nothing. Declaring a path grants read as well as
+  # write, which the Claude Code hooks need: that settings file is parsed,
+  # rewritten, and backed up alongside itself.
+  uninstall_preflight_steps do
+    if_path_exists "Newt.app/Contents/MacOS/Newt", base: :appdir do
+      run "{{appdir}}/Newt.app/Contents/MacOS/Newt",
+          args:           ["--uninstall-integrations"],
+          must_succeed:   false,
+          print_stderr:   false,
+          writable_paths: ["~/.claude", "~/.config/opencode/plugin"]
     end
   end
 
