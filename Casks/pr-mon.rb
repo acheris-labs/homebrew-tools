@@ -6,8 +6,8 @@
 # the bundle (dashboard, backend and commands) that the `binary` stanza
 # symlinks onto PATH. Signed, notarized, stapled.
 cask "pr-mon" do
-  version "0.2.0-rc1"
-  sha256 "b2515cfd081c826cb8c8f4df4c05aaa66ae9aee6d8e66477c3791bf6a3a0bbff"
+  version "0.2.0-rc2"
+  sha256 "e84bf072df70d650c8941d8700b342ccfbef61b0d7041067b1ecc5a7ebdb5c1d"
 
   url "https://github.com/acheris-labs/pr-mon/releases/download/v#{version}/PrMon-#{version}.zip"
   name "pr-mon"
@@ -23,7 +23,7 @@ cask "pr-mon" do
   # daemon keeps running from a deleted binary.
   #
   # Signalling it rather than running `pr-mon stop`: steps run in Homebrew's
-  # sandbox with /Users/chris pointing at a scratch directory, so `stop` looks for the
+  # sandbox with /home/runner pointing at a scratch directory, so `stop` looks for the
   # socket in the wrong place and reports the backend as not running. The
   # daemon shuts down cleanly on SIGTERM. The match is the full command line,
   # so an open dashboard (plain `pr-mon`) is left alone.
