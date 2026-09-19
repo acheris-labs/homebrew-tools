@@ -6,8 +6,8 @@
 # the bundle (dashboard, backend and commands) that the `binary` stanza
 # symlinks onto PATH. Signed, notarized, stapled.
 cask "pr-mon" do
-  version "0.2.0-rc13"
-  sha256 "a7c06d43c5cbcda75b524b389b24be60b7efbad401d680e6e91e6de93526e1fb"
+  version "0.2.0-rc14"
+  sha256 "9f35411eb1cecfeb9c0eb8fc766093c339969e057ac522fc10a915a2e7108fcd"
 
   url "https://github.com/acheris-labs/pr-mon/releases/download/v#{version}/PrMon-#{version}.zip"
   name "pr-mon"
@@ -31,8 +31,10 @@ cask "pr-mon" do
     terminate_process "pr-mon daemon", match: :full, must_succeed: false
   end
 
-  uninstall quit:      "com.acheris-labs.pr-mon.app",
-            launchctl: "com.acheris-labs.pr-mon.session"
+  # No launchctl step for the backend's on-demand job: an upgrade runs this
+  # too, and unloading the job the app registered would leave it registered
+  # but gone until the next login. Deleting the app removes the registration.
+  uninstall quit: "com.acheris-labs.pr-mon.app"
 
   # `brew uninstall --zap pr-mon` is the full teardown: the repos being watched,
   # what has been seen, armed merges, and the app's own preferences.
