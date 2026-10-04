@@ -7,8 +7,8 @@
 # the version on disk can move ahead of the version in the tap without Homebrew
 # trying to reinstall over the top of it.
 cask "newt" do
-  version "0.9.2"
-  sha256 "2500fe95e4cfd75757143013336cee57f3672a3cf01804b0c688ade2cc27038e"
+  version "0.10.0"
+  sha256 "bf2f2646ade516e807a34b3deab7d0b986ef1e0b12fdbd69c1fd3df724467137"
 
   url "https://github.com/acheris-labs/newt/releases/download/v#{version}/Newt-#{version}.dmg"
   name "Newt"
