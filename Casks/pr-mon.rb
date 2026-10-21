@@ -6,8 +6,8 @@
 # the bundle (dashboard, backend and commands) that the `binary` stanza
 # symlinks onto PATH. Signed, notarized, stapled.
 cask "pr-mon" do
-  version "0.2.2"
-  sha256 "202803635f005923235d0765ccc0dc044f14ae45bda203cb51c36ca8f34a0e43"
+  version "0.3.0"
+  sha256 "27e5f891720865f430e4c1ddbf5e10189833fb2da55f0cd14dd2546c126fac52"
 
   url "https://github.com/acheris-labs/pr-mon/releases/download/v#{version}/PrMon-#{version}.zip"
   name "pr-mon"
