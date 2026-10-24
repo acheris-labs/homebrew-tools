@@ -6,8 +6,8 @@
 # the bundle (dashboard, backend and commands) that the `binary` stanza
 # symlinks onto PATH. Signed, notarized, stapled.
 cask "pr-mon" do
-  version "0.4.0"
-  sha256 "cd0db946064df5bdf5aab4a1aa053bcd5d6fa100452762ba6844b62e5bfc74c9"
+  version "0.4.1"
+  sha256 "25d0a135255ff62b8f81029b4c6e36f50969da8a62988eb9728cd087270330c9"
 
   url "https://github.com/acheris-labs/pr-mon/releases/download/v#{version}/PrMon-#{version}.zip"
   name "pr-mon"
@@ -15,9 +15,12 @@ cask "pr-mon" do
   homepage "https://github.com/acheris-labs/pr-mon"
 
   depends_on macos: :sonoma
+  depends_on arch: :arm64
 
   app "PrMon.app"
   binary "#{appdir}/PrMon.app/Contents/Resources/bin/pr-mon"
+  # The Telegram two-way handler; pr-mon runs it when [two_way] command names it.
+  binary "#{appdir}/PrMon.app/Contents/Resources/bin/pr-mon-telegram"
 
   # The backend outlives the app, so stop it before the bundle goes; otherwise a
   # daemon keeps running from a deleted binary.
