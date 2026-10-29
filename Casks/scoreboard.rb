@@ -6,8 +6,8 @@
 # on the unix socket, and ships the compiled CLI inside the bundle - the
 # `binary` stanza symlinks it onto PATH. Signed, notarized, stapled.
 cask "scoreboard" do
-  version "3.2.1"
-  sha256 "ca6e6b4ea436c47c8af4126fb9734106bbf11c7e1d966aef47df7315bac34a17"
+  version "3.2.2"
+  sha256 "a614f0a610ffda21103ed04b62874d3844dffeb8f614686a787b670198f7dfa0"
 
   url "https://github.com/acheris-labs/agent-scoreboard/releases/download/v#{version}/Scoreboard-#{version}.zip"
   name "Scoreboard"
@@ -38,13 +38,16 @@ cask "scoreboard" do
                    args: ["init", "--remove"], print_stderr: false
   end
 
-  uninstall quit: "com.chrismadden.scoreboard"
+  # Both ids: 3.2.2 renamed com.chrismadden.scoreboard to net.acheris.scoreboard.
+  uninstall quit: ["net.acheris.scoreboard", "com.chrismadden.scoreboard"]
 
   # `brew uninstall --zap scoreboard` is the full teardown: session state,
   # snapshot, hook log, and the list of config folders. The hooks themselves
   # are already unwound by uninstall_preflight.
   zap trash: [
         "~/.local/state/scoreboard",
+        "~/Library/Caches/net.acheris.scoreboard",
+        "~/Library/Preferences/net.acheris.scoreboard.plist",
         "~/Library/Caches/com.chrismadden.scoreboard",
         "~/Library/Preferences/com.chrismadden.scoreboard.plist",
       ]
