@@ -6,8 +6,8 @@
 # on the unix socket, and ships the compiled CLI inside the bundle - the
 # `binary` stanza symlinks it onto PATH. Signed, notarized, stapled.
 cask "scoreboard" do
-  version "3.1.0"
-  sha256 "ef1de43c3af805b6d778dfa4c4a1a4629b4fbdcc5966810cf19f43a2187cac13"
+  version "3.2.0"
+  sha256 "8cfa26c056010664cce203ab841845a346761fa8cfa31db53e9aa99ae07d8921"
 
   url "https://github.com/acheris-labs/agent-scoreboard/releases/download/v#{version}/Scoreboard-#{version}.zip"
   name "Scoreboard"
