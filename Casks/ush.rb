@@ -2,8 +2,8 @@
 # Rendered by the release workflow with envsubst: VERSION and SHA_ZIP come from
 # the release's notarized zip, which holds the ush binary and nothing else.
 cask "ush" do
-  version "0.1.1"
-  sha256 "2e852a760d0c9b247b336e4aa8ff360cd448f7bdddb2dcce7b53bc6d644c1942"
+  version "0.1.2"
+  sha256 "96ec6baf2d844f13a95f80951da3ba5284608538e22288a5ad8664756679817f"
 
   url "https://github.com/acheris-labs/ushell/releases/download/v#{version}/ush-#{version}.zip"
   name "ush"
